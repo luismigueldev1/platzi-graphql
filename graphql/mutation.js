@@ -1,4 +1,5 @@
 const { Student, Course } = require("../db/schema")
+const errorHandler = require("./errorHandler")
 
 module.exports = {
 
@@ -8,7 +9,7 @@ module.exports = {
             const student = await Student.create(input)
             return student
         } catch (err) {
-            console.log(err)
+            errorHandler(err)
         }
     },
     editStudent: async (root, { id, input }) => {
@@ -16,7 +17,7 @@ module.exports = {
             const student = await Student.findByIdAndUpdate(id, input, { new: true })
             return student
         } catch (err) {
-            console.log(err)
+            errorHandler(err)
         }
     },
     deleteStudent: async (root, { id }) => {
@@ -24,7 +25,7 @@ module.exports = {
             const student = await Student.findByIdAndDelete(id)
             return student
         } catch (err) {
-            console.log(err)
+            errorHandler(err)
         }
 
     },
@@ -36,7 +37,7 @@ module.exports = {
             const course = await Course.create(input)
             return course
         } catch (err) {
-            console.log(err)
+            errorHandler(err)
         }
     },
     editCourse: async (root, { id, input }) => {
@@ -44,7 +45,7 @@ module.exports = {
             const course = await Course.findByIdAndUpdate(id, input, { new: true })
             return course
         } catch (err) {
-            console.log(err)
+            errorHandler(err)
         }
     },
     deleteCourse: async (root, { id }) => {
@@ -52,7 +53,7 @@ module.exports = {
             const course = await Course.findByIdAndDelete(id)
             return course
         } catch (err) {
-            console.log(err)
+            errorHandler(err)
         }
 
     },
@@ -61,7 +62,6 @@ module.exports = {
             const course = await Course.findOne({ _id: courseID })
             const person = await Student.findOne({ _id: personID })
             if (!course || !person) throw new Error("El curso o  la persona no existe")
-
             const addPersonToCourse = await Course.findByIdAndUpdate(
                 { _id: courseID },
                 { $addToSet: { people: personID } },
@@ -73,7 +73,7 @@ module.exports = {
             return addPersonToCourse
 
         } catch (err) {
-            console.log(err)
+            errorHandler(err)
         }
     }
 }

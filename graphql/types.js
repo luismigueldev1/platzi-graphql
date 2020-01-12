@@ -1,4 +1,6 @@
 const { Student, Course } = require("../db/schema")
+const errorHandler = require("./errorHandler")
+
 module.exports = {
     Course: {
         people: async ({ people }) => {
@@ -10,7 +12,7 @@ module.exports = {
                 )
                 return peopleData
             } catch (err) {
-                console.log(err)
+                errorHandler(err)
             }
         }
     }
