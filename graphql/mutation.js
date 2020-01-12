@@ -55,5 +55,25 @@ module.exports = {
             console.log(err)
         }
 
+    },
+    addPeople: async (root, { courseID, personID }) => {
+        try {
+            const course = await Course.findOne({ _id: courseID })
+            const person = await Student.findOne({ _id: personID })
+            if (!course || !person) throw new Error("El curso o  la persona no existe")
+
+            const addPersonToCourse = await Course.findByIdAndUpdate(
+                { _id: courseID },
+                { $addToSet: { people: personID } },
+                //$addToSet verifica que exista y no permite ids repetidos
+                //{ $push: { people: courseID } } $push agrega sin importar si existe uno identico
+                { useFindAndModify: false }
+            )
+
+            return addPersonToCourse
+
+        } catch (err) {
+            console.log(err)
+        }
     }
 }

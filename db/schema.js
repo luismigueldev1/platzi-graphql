@@ -12,7 +12,8 @@ const courseSchema = new Schema({
     title: String,
     teacher: String,
     description: String,
-    topic: String
+    topic: String,
+    people: [Schema.Types.ObjectId]
 })
 
 const Course = model('Course', courseSchema)

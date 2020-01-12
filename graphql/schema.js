@@ -27,6 +27,7 @@ type Course {
   teacher: String!
   description: String!
   topic: String!
+  people: [Student]
 }
 
 input CourseInput{
@@ -69,6 +70,9 @@ type Mutation {
   editCourse(id: ID! , input : CourseEditInput ) : Course
   "Eliminar un curso"
   deleteCourse(id: ID!): Course
+
+  "Agregar una persona a un curso"
+  addPeople(courseID: ID!, personID: ID!) : Course
 }
 `
 module.exports = makeExecutableSchema({
